@@ -310,7 +310,7 @@ const Matriz3x3 = () => {
         {/* //en una tabla mostrar la matriz 3x3 con los valores de la matriz en botones en cada celda y que cambien segun el turno, si turno es true mostrar X y la matriz cambiarla a 1, si es false mostrar O y cambiar la matriz a 2 */}
         {/* //centrar en una tarjeta la tabla y agregar un boton para reiniciar el juego */}
         <div className="row justify-content-center">
-          <div className="col-4">
+          <div className="col-6">
             <div className="card">
               <div className="card-body">
                 <table className="table table-bordered ">
