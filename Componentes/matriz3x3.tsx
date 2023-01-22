@@ -293,101 +293,122 @@ const Matriz3x3 = () => {
 
   return (
     <div className="container pt-3">
-      <h1>Gato</h1>
-      {/*  //mostrar el turno del jugador */}
-      <h2>Turno del jugador: {turno ? "X" : "O"}</h2>
-      {/*   //si el juego termino mostrar un mensaje de ganador o empate */}
-      {validarJuegoTerminado() && (
-        <h2>
-          {validarGanador() !== 0
-            ? "Ganador: " + (validarGanador() === 1 ? "X" : "O")
-            : "Empate"}
-        </h2>
-      )}
-      {/* //en una tabla mostrar la matriz 3x3 con los valores de la matriz en botones en cada celda y que cambien segun el turno, si turno es true mostrar X y la matriz cambiarla a 1, si es false mostrar O y cambiar la matriz a 2 */}
-      <table className="table-info">
-        <tbody>
-          {matriz.map((fila, i) => (
-            <tr key={i}>
-              {fila.map((celda, j) => (
-                <td key={j}>
-                  <button
-                    id={`${i}-${j}`}
-                    className={`btn btn-${
-                      matriz[i][j] === 1 ? "danger" : "primary"
-                    }`}
-                    onClick={() => {
-                      if (validarGanador() !== 0 && !validarEmpateUn()) return;
-                      //si el valor de la matriz en la posicion i,j es diferente de 0, no hacer nada (return)
-                      if (matriz[i][j] !== 0) {
-                        console.log("no se puede jugar");
-                        return;
-                      }
-                      //cambiar el valor de la matriz segun el turno
-                      if (turno) {
-                        //turno del humano
-                        matriz[i][j] = 1;
-                        //borrar la posicion de la matriz i,j de posiciones
-                        posiciones.splice(
-                          posiciones.findIndex(
-                            (posicion) => posicion[0] === i && posicion[1] === j
-                          ),
-                          1
-                        );
-                        setTurno(false);
-                        setTimeout(() => {
-                          //turno de la computadora, se pone aqui porque se ejecuta despues de cambiar el turno(es decior el turno humano)
-                          jugarComputadora();
-                        }, 500);
-                      } else {
-                        matriz[i][j] = 2;
-                        //borrar la posicion de la matriz i,j de posiciones
-                        setPosiciones(
-                          posiciones.filter(
-                            (posicion) => posicion[0] !== i || posicion[1] !== j
-                          )
-                        );
-                        setTurno(true);
-                      }
-                    }}
-                  >
-                    {celda === 0 ? "" : celda === 1 ? "X" : "O"}
-                  </button>
-                </td>
-              ))}
-            </tr>
+      <div>
+        <h1 className="text-center">Gato</h1>
+        {/*  //mostrar el turno del jugador */}
+        <h2 className="text-center">Turno del jugador: {turno ? "X" : "O"}</h2>
+        {/*   //si el juego termino mostrar un mensaje de ganador o empate */}
+        <div className="text-center">
+          {validarJuegoTerminado() && (
+            <h2>
+              {validarGanador() !== 0
+                ? "Ganador: " + (validarGanador() === 1 ? "X" : "O")
+                : "Empate"}
+            </h2>
+          )}
+        </div>
+        {/* //en una tabla mostrar la matriz 3x3 con los valores de la matriz en botones en cada celda y que cambien segun el turno, si turno es true mostrar X y la matriz cambiarla a 1, si es false mostrar O y cambiar la matriz a 2 */}
+        {/* //centrar en una tarjeta la tabla y agregar un boton para reiniciar el juego */}
+        <div className="row justify-content-center">
+          <div className="col-4">
+            <div className="card">
+              <div className="card-body">
+                <table className="table table-bordered ">
+                  <tbody>
+                    {matriz.map((fila, i) => (
+                      <tr key={i}>
+                        {fila.map((celda, j) => (
+                          <td key={j}>
+                            <div className="d-flex justify-content-center">
+                              <button
+                                id={`${i}-${j}`}
+                                className={`btn btn-${
+                                  matriz[i][j] === 1 ? "danger" : "primary"
+                                }`}
+                                onClick={() => {
+                                  if (
+                                    validarGanador() !== 0 &&
+                                    !validarEmpateUn()
+                                  )
+                                    return;
+                                  //si el valor de la matriz en la posicion i,j es diferente de 0, no hacer nada (return)
+                                  if (matriz[i][j] !== 0) {
+                                    console.log("no se puede jugar");
+                                    return;
+                                  }
+                                  //cambiar el valor de la matriz segun el turno
+                                  if (turno) {
+                                    //turno del humano
+                                    matriz[i][j] = 1;
+                                    //borrar la posicion de la matriz i,j de posiciones
+                                    posiciones.splice(
+                                      posiciones.findIndex(
+                                        (posicion) =>
+                                          posicion[0] === i && posicion[1] === j
+                                      ),
+                                      1
+                                    );
+                                    setTurno(false);
+                                    setTimeout(() => {
+                                      //turno de la computadora, se pone aqui porque se ejecuta despues de cambiar el turno(es decior el turno humano)
+                                      jugarComputadora();
+                                    }, 500);
+                                  } else {
+                                    matriz[i][j] = 2;
+                                    //borrar la posicion de la matriz i,j de posiciones
+                                    setPosiciones(
+                                      posiciones.filter(
+                                        (posicion) =>
+                                          posicion[0] !== i || posicion[1] !== j
+                                      )
+                                    );
+                                    setTurno(true);
+                                  }
+                                }}
+                              >
+                                {celda === 0 ? "" : celda === 1 ? "X" : "O"}
+                              </button>
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* //si el juego termino mostrar un boton para reiniciar el juego */}
+        <br></br>
+        <div className="row justify-content-center">
+          {validarJuegoTerminado() && (
+            <button className="btn btn-primary" onClick={reiniciarJuego}>
+              Reiniciar Juego
+            </button>
+          )}
+        </div>
+        {/*
+        <h3>Matriz</h3>
+        <table>
+          <tbody>
+            {matriz.map((fila, i) => (
+              <tr key={i}>
+                {fila.map((columna, j) => (
+                  <td key={j}>{columna}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table> */}
+        {/* //mostrar las posiciones */}
+        {/* <h3>Posiciones Disponibles</h3>
+        <ul>
+          {posiciones.map((posicion, i) => (
+            <li key={i}>{posicion[0] + "," + posicion[1]}</li>
           ))}
-        </tbody>
-      </table>
-
-      {/* //si el juego termino mostrar un boton para reiniciar el juego */}
-      {validarJuegoTerminado() && (
-        <button className="btn btn-primary" onClick={reiniciarJuego}>
-          Reiniciar Juego
-        </button>
-      )}
-      {/* Hola hermosaaaaaaa  te amo holaaaa*/}
-      {/*  //mostrar el matriz */}
-      <h3>Matriz</h3>
-      <table>
-        <tbody>
-          {matriz.map((fila, i) => (
-            <tr key={i}>
-              {fila.map((columna, j) => (
-                <td key={j}>{columna}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* //mostrar las posiciones */}
-      <h3>Posiciones Disponibles</h3>
-      <ul>
-        {posiciones.map((posicion, i) => (
-          <li key={i}>{posicion[0] + "," + posicion[1]}</li>
-        ))}
-      </ul>
+        </ul> */}
+      </div>
     </div>
   );
 };
